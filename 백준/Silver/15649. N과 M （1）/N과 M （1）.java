@@ -17,6 +17,7 @@ public class Main {
         visit = new boolean[n];
         
         dfs(0);
+        sc.close(); // 메모리 사용은 줄어들지만, 시간은 오히려 늘어남
     }
     
     public static void dfs(int depth) {
