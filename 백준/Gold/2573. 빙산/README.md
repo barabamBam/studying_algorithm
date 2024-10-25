@@ -2,17 +2,9 @@
 
 [문제 링크](https://www.acmicpc.net/problem/2573) 
 
-### 성능 요약
-
-메모리: 276188 KB, 시간: 636 ms
-
 ### 분류
 
 너비 우선 탐색, 깊이 우선 탐색, 그래프 이론, 그래프 탐색, 구현
-
-### 제출 일자
-
-2024년 10월 26일 04:39:08
 
 ### 문제 설명
 
@@ -188,3 +180,103 @@
 
  <p>첫 줄에 빙산이 분리되는 최초의 시간(년)을 출력한다. 만일 빙산이 다 녹을 때까지 분리되지 않으면 0을 출력한다.</p>
 
+
+
+#  🚀  오답노트 
+
+```diff
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static int[][] visited;
+    public static int[][] ice;
+    public static int N;
+    public static int M;
+    
+    public static void main(String[] args) throws IOException {
+        // 코드를 작성해주세요
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        
+        ice = new int[N][M];
+        
+        for(int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            
+            for(int j = 0; j < M; j++) {
+                ice[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+        
+        boolean isSeperated = false;
+        int time = 0;
+        
+        while(true) {
+            int mass = 0;
+            visited = new int[N][M];
+            
+            for(int i = 0; i < N; i++) {
+                for(int j = 0; j < M; j++) {
+                    if(ice[i][j] > 0 && visited[i][j] == 0) {
+                        dfs(i, j);
+                        mass++;
+                    }
+                }
+            }
+            
+            if(mass >= 2) {
+                isSeperated = true;
+                break;
+            }
+            else if(mass == 0) break;
+            
+            time++;
+        }
+        if(isSeperated) bw.write(""+time);
+        else bw.write("0");
+        
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    
+    public static void dfs(int x, int y) {
+        int[][] direction = {{1,0},{0,-1},{-1,0},{0,1}};
+        visited[x][y] = 1;
+        for(int i = 0; i < 4; i++) {
+            int nx = x+direction[i][0];
+            int ny = y+direction[i][1];
+            
+            if(nx >= 0 && nx < N && ny >= 0 && ny < M 
+                && visited[nx][ny] == 0) {
+                if(ice[nx][ny] == 0 && ice[x][y] > 0) {
+                    ice[x][y]--;
+-                    visited[nx][ny] = 1;
+                }
+                else if(ice[nx][ny] > 0) {
+                    dfs(nx, ny);
+                }
+            }
+        }
+    }
+}
+
+```
+
+
+ ## 🏆 전체 코멘트 
+
+저기서 먼저 방문했다는 표시를 하게되면 다른 빙산에서 같은 위치를 방문하지 못하게 된다.
+예를 들어, 
+0 0 0 0 0 0 0
+0 2 4 5 3 0 0
+0 3 0 2 5 2 0
+0 7 6 2 4 0 0
+0 0 0 0 0 0 0
+다음과 같은 코드에서 3행 3열의 위치는 2행 3열과 4행 3열이 모두 방문해야하는 위치이기 때문에 2행 3열에서 방문했다는 기록을 남기면 4행 3열에서는 이미 방문한 위치를 더이상 방문하지 않기 때문에 카운트에 적용되지 않는다.
