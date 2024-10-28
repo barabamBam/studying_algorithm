@@ -2,21 +2,13 @@
 
 [문제 링크](https://www.acmicpc.net/problem/2292) 
 
-### 성능 요약
-
-메모리: 17680 KB, 시간: 176 ms
-
 ### 분류
 
 수학
 
-### 제출 일자
-
-2024년 10월 29일 01:46:45
-
 ### 문제 설명
 
-<p style="text-align: center;"><img alt="" src="https://www.acmicpc.net/JudgeOnline/upload/201009/3(2).png" style="height:397px; width:363px"></p>
+<p style="text-align: center;"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/JudgeOnline/upload/201009/3(2).png" style="height:397px; width:363px"></p>
 
 <p>위의 그림과 같이 육각형으로 이루어진 벌집이 있다. 그림에서 보는 바와 같이 중앙의 방 1부터 시작해서 이웃하는 방에 돌아가면서 1씩 증가하는 번호를 주소로 매길 수 있다. 숫자 N이 주어졌을 때, 벌집의 중앙 1에서 N번 방까지 최소 개수의 방을 지나서 갈 때 몇 개의 방을 지나가는지(시작과 끝을 포함하여)를 계산하는 프로그램을 작성하시오. 예를 들면, 13까지는 3개, 58까지는 5개를 지난다.</p>
 
@@ -28,3 +20,37 @@
 
  <p>입력으로 주어진 방까지 최소 개수의 방을 지나서 갈 때 몇 개의 방을 지나는지 출력한다.</p>
 
+
+
+#  🚀  오답노트 
+
+```diff
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // 코드를 작성해주세요
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        
+        int room = 1;
+        int num = 1;
+        
+-        while(num <= N) {
++        while(num < N) {
+            num += (6*room);
+            room++;
+        }
+        
+-        System.out.println(""+room);
++        System.out.println(room);
++        sc.close();
+    }
+}
+
+```
+
+
+ ## 🏆 전체 코멘트 
+
+num의 값이 증가한 후 결과를 잘못 생각했다.
