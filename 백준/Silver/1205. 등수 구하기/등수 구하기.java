@@ -8,20 +8,24 @@ public class Main {
         int N = sc.nextInt();
         int newScore = sc.nextInt();
         int P = sc.nextInt();
-        List<Integer> scores = new ArrayList<>();
+        int[] scores = new int[N];
         
         for(int i = 0; i < N; i++) {
-            scores.add(sc.nextInt());
+            scores[i] = sc.nextInt();
         }
-        scores.sort(Comparator.reverseOrder());
+        scores = Arrays.stream(scores)
+                        .boxed()
+                        .sorted(Collections.reverseOrder())
+                        .mapToInt(Integer::intValue)
+                        .toArray();
         
-        if (N == P && newScore <= scores.get(scores.size() - 1)) {
+        if (N == P && newScore <= scores[scores.length - 1]) {
             System.out.println("-1");
         } 
         else {
             int rank = 1;
-            for (int i = 0; i < scores.size(); i++) {
-                if (newScore >= scores.get(i)) break;
+            for (int i = 0; i < scores.length; i++) {
+                if (newScore >= scores[i]) break;
                 rank++;
             }
             System.out.println(rank);
