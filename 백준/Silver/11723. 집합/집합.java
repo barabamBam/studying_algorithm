@@ -8,35 +8,34 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         
         int M = Integer.parseInt(br.readLine());
-        String setString = "";
+        Set<Integer> set = new HashSet<>();
         
         for(int i = 0; i < M; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             String action = st.nextToken();
-            String num = "";
+            Integer num = null;
             
+            if (!action.equals("all") && !action.equals("empty")) num = Integer.parseInt(st.nextToken()); 
             switch(action) {
                 case "add":
-                    if(!setString.contains(num = st.nextToken())) setString=setString.concat(num);
+                    set.add(num);
                     break;
                 case "remove":
-                    if(setString.contains(num = st.nextToken())) setString=setString.replace(num,"");
+                    set.remove(num);
                     break;
                 case "check":
-                    if(setString.contains(num = st.nextToken())) bw.write("1\n");
-                    else bw.write("0\n");
+                    bw.write(set.contains(num) ? "1\n" : "0\n");
                     break;
                 case "toggle":
-                    if(!setString.contains(num = st.nextToken())) setString=setString.concat(num);
-                    else setString=setString.replace(num,"");
+                    if(!set.contains(num)) set.add(num);
+                    else set.remove(num);
                     break;
                 case "all":
-                    setString = "{1";
-                    for(int j = 2; j <= 20; j++) setString=setString.concat(","+j);
-                    setString=setString.concat("}");
+                    set.clear();
+                    for(int j = 1; j <= 20; j++) set.add(j);
                     break;
                 case "empty":
-                    setString = "";
+                    set.clear();
                     break;
             }
         }
