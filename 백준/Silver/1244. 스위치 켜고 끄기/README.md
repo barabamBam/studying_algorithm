@@ -2,17 +2,9 @@
 
 [문제 링크](https://www.acmicpc.net/problem/1244) 
 
-### 성능 요약
-
-메모리: 18452 KB, 시간: 216 ms
-
 ### 분류
 
 구현, 시뮬레이션
-
-### 제출 일자
-
-2024년 10월 30일 17:52:11
 
 ### 문제 설명
 
@@ -121,3 +113,74 @@
 
  <p>스위치의 상태를 1번 스위치에서 시작하여 마지막 스위치까지 한 줄에 20개씩 출력한다. 예를 들어 21번 스위치가 있다면 이 스위치의 상태는 둘째 줄 맨 앞에 출력한다. 켜진 스위치는 1, 꺼진 스위치는 0으로 표시하고, 스위치 상태 사이에 빈칸을 하나씩 둔다.</p>
 
+
+
+#  🚀  오답노트 
+
+```diff
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // 코드를 작성해주세요
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int[] switches = new int[N+1];
+        
+        for(int i = 1; i <= N; i++) {
+            switches[i] = sc.nextInt();
+        }
+        
+        int studentNum = sc.nextInt();
+        
+        for(int i = 0; i < studentNum; i++) {
+            int gender = sc.nextInt();
+            int num = sc.nextInt();
+            if(gender == 1) {
+-                for(int j = num; j <= N ; j+=j) {
+-                    if(switches[j] == 1) switches[j] = 0;
+-                    else switches[j] = 1;
++                for(int j = num; j <= N ; j+=num) {
++                    switches[j] = (switches[j] == 1) ? 0 : 1;
+                }
+            }
+            else if(gender == 2) {
+-                if(switches[num] == 1) switches[num] = 0;
+-                else switches[num] = 1;
++                switches[num] = (switches[num] == 1) ? 0 : 1;
+                    
+                for(int j = 1; j <= (N-1)/2 ; j++) {
+                    if(num-j <= 0 || num+j > N) break;
+                    
+                    if(switches[num-j] != switches[num+j]) break;
+                    else {
+-                        if(switches[num-j] == 1) {
+-                            switches[num-j] = 0;
+-                            switches[num+j] = 0;
+-                        }
+-                        else {
+-                            switches[num-j] = 1;
+-                            switches[num+j] = 1;
+-                        }
++                        switches[num-j] = (switches[num-j] == 1) ? 0 : 1;
++                        switches[num+j] = (switches[num+j] == 1) ? 0 : 1;
+                    }
+                }
+            }
+            
+        }
+        
+        for(int i = 1; i <= N; i++) {
+            System.out.print(switches[i]+" ");
++            if(i%20 == 0) System.out.println("");
+        }
+        sc.close();
+    }
+}
+
+```
+
+
+ ## 🏆 전체 코멘트 
+
+20개 씩 끊어 출력, j는 변하는 값이므로 num을 더해야함
