@@ -5,17 +5,14 @@
 
 int GCD(int n, int m) {
     int temp;
-
-    if (n < m) {
-        temp = n;
+    
+    while(m != 0) {
+        temp = n % m;
         n = m;
         m = temp;
     }
-
-    if (m == 0)
-        return n;
-
-    return GCD(m, n % m);
+    
+    return n;
 }
 
 int main(void) {
@@ -24,7 +21,7 @@ int main(void) {
     long long result = 0;
 
     scanf("%d", &t);
-    getchar();
+    
     for (int i = 0; i < t; i++) {
         n = 0;
         memset(num, 0, sizeof(num));
